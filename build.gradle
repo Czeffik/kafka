@@ -1,0 +1,41 @@
+buildscript {
+    ext {
+        repos = {
+            gradlePluginPortal()
+            mavenLocal()
+            mavenCentral()
+        }
+        lombokVersion = '1.18.12'
+        springVersion = '5.2.5.RELEASE'
+        springKafkaVersion = '2.4.4.RELEASE'
+        repositories(repos)
+    }
+}
+
+
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'idea'
+    id 'info.solidsoft.pitest' version '1.4.6'
+    id 'checkstyle'
+}
+
+apply from: 'gradle/test.gradle'
+
+group 'com.trzewik'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework.kafka:spring-kafka:${springKafkaVersion}"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
