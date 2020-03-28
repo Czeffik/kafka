@@ -4,15 +4,15 @@ buildscript {
         junitVersion = '4.12'
         spockVersion = '1.3-groovy-2.5'
     }
-    repositories (repos)
+    repositories(repos)
 }
 
 sourceSets {
     test.groovy.srcDirs(
-            "src/test/unit",
-            "src/test/integration",
-            "src/test/functional",
-            "src/test/commons"
+        "src/test/unit",
+        "src/test/integration",
+        "src/test/functional",
+        "src/test/commons"
     )
 }
 

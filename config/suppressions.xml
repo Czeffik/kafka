@@ -6,5 +6,5 @@
 
 <suppressions>
     <suppress checks="RegexpMultiline"
-              files="\.java" />
+              files="\.java"/>
 </suppressions>
