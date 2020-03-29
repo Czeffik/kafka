@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
 public class TranslationProviderConfiguration {
     @Bean
     TranslationProvider translationProvider() {
-        return TranslationProviderFactory.create();
+        return new TranslationProviderImpl();
     }
 }

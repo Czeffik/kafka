@@ -1,6 +1,5 @@
 package com.trzewik.kafka.infrastructure.kafka.translation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trzewik.kafka.domain.translation.Information;
 import com.trzewik.kafka.domain.translation.InformationPublisher;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -27,7 +26,7 @@ public class TranslationPublisherConfiguration {
         KafkaOperations<String, Information> producerOperations,
         @Value("${topic.translated}") String topicName
     ) {
-        return InformationPublisherFactory.create(producerOperations, topicName);
+        return new InformationPublisherImpl(producerOperations, topicName);
     }
 
     @Bean

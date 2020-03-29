@@ -1,10 +1,7 @@
 package com.trzewik.kafka.interfaces.kafka.translation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trzewik.kafka.domain.translation.Information;
 import com.trzewik.kafka.domain.translation.TranslationService;
-import com.trzewik.kafka.interfaces.kafka.translation.InformationConsumer;
-import com.trzewik.kafka.interfaces.kafka.translation.InformationConsumerFactory;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +26,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZE
 public class InformationConsumerConfiguration {
     @Bean
     InformationConsumer informationConsumer(TranslationService translationService) {
-        return InformationConsumerFactory.create(translationService);
+        return new InformationConsumerImpl(translationService);
     }
 
     @Bean
