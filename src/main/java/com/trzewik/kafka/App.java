@@ -1,6 +1,6 @@
 package com.trzewik.kafka;
 
-import com.trzewik.kafka.domain.DomainConfiguration;
+import com.trzewik.kafka.infrastructure.DomainConfiguration;
 import com.trzewik.kafka.infrastructure.InfrastructureConfiguration;
 import com.trzewik.kafka.interfaces.InterfacesConfiguration;
 import org.springframework.boot.SpringApplication;

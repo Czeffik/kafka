@@ -1,4 +1,4 @@
-package com.trzewik.kafka.domain;
+package com.trzewik.kafka.infrastructure;
 
 import com.trzewik.kafka.domain.translation.InformationPublisher;
 import com.trzewik.kafka.domain.translation.TranslationProvider;
