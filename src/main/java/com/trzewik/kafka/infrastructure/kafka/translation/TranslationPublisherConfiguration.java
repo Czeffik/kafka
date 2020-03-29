@@ -43,9 +43,4 @@ public class TranslationPublisherConfiguration {
         config.put(VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(config);
     }
-
-    @Bean
-    ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
 }
