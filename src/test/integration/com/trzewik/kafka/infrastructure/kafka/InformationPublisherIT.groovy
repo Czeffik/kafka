@@ -1,41 +1,26 @@
 package com.trzewik.kafka.infrastructure.kafka
 
+import com.trzewik.kafka.KafkaSpecification
 import com.trzewik.kafka.domain.translation.Information
 import com.trzewik.kafka.domain.translation.InformationPublisher
 import com.trzewik.kafka.infrastructure.kafka.translation.TranslationPublisherConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.kafka.test.EmbeddedKafkaBroker
-import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
-import spock.lang.Specification
 
 @ContextConfiguration(classes = TranslationPublisherConfiguration)
-@EmbeddedKafka(
-    topics = ['information-translated-output-topic'],
-    partitions = 4,
-    ports = [InformationPublisherIT.BOOTSTRAP_PORT],
-    zookeeperPort = InformationPublisherIT.ZOOKEEPER_PORT
-)
 @TestPropertySource(
     properties = [
-        'topic.translated=information-translated-output-topic',
-        'bootstrap.address=${spring.embedded.kafka.brokers}'
+        'topic.translated=InformationPublisherIT'
     ]
 )
-class InformationPublisherIT extends Specification {
-    static final int ZOOKEEPER_PORT = 9999
-    static final int BOOTSTRAP_PORT = 9988
-
-    @Value('${spring.embedded.kafka.brokers}')
-    String kafkaBrokers
-
+class InformationPublisherIT extends KafkaSpecification {
     @Autowired
     InformationPublisher publisher
 
-    @Autowired
-    EmbeddedKafkaBroker kafkaEmbedded
+    @Value('${topic.translated}')
+    String translatedTopic
 
     def 'should publish information on topic successfully'() {
         given:
@@ -44,8 +29,11 @@ class InformationPublisherIT extends Specification {
         when:
             publisher.publish(key, information)
         then:
-            //todo replace with checking that message appear on topic
-            1 == 1
+            def messages = consumeAllFrom(translatedTopic, 1)
+            with(messages.first()) {
+                assert it.key == key
+                assert it.value == '{"name":"name","description":"description"}'
+            }
 
     }
 }

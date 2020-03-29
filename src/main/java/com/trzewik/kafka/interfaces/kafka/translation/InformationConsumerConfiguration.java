@@ -1,4 +1,4 @@
-package com.trzewik.kafka.interfaces.kafka;
+package com.trzewik.kafka.interfaces.kafka.translation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trzewik.kafka.domain.translation.Information;
@@ -26,7 +26,7 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZE
 
 @EnableKafka
 @Configuration
-public class KafkaConsumerConfiguration {
+public class InformationConsumerConfiguration {
     @Bean
     InformationConsumer informationConsumer(TranslationService translationService) {
         return InformationConsumerFactory.create(translationService);
