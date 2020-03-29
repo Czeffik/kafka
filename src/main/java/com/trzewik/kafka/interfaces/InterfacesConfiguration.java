@@ -1,11 +1,11 @@
 package com.trzewik.kafka.interfaces;
 
-import com.trzewik.kafka.interfaces.kafka.KafkaConfiguration;
+import com.trzewik.kafka.interfaces.kafka.KafkaConsumerConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Import({
-    KafkaConfiguration.class
+    KafkaConsumerConfiguration.class
 })
 @Configuration
 public class InterfacesConfiguration {

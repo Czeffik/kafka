@@ -1,0 +1,8 @@
+topic:
+  information: information
+  translated: information-translated
+bootstrap:
+  address: localhost:9092
+group:
+  id: app
+

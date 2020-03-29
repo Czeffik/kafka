@@ -8,6 +8,8 @@ buildscript {
         lombokVersion = '1.18.12'
         springVersion = '5.2.5.RELEASE'
         springKafkaVersion = '2.4.4.RELEASE'
+        springBootVersion = '2.2.6.RELEASE'
+        jacksonDatabindVersion = '2.10.3'
         repositories(repos)
     }
 }
@@ -35,6 +37,11 @@ repositories {
 dependencies {
     compile "org.springframework:spring-context:${springVersion}"
     compile "org.springframework.kafka:spring-kafka:${springKafkaVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
+    compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"
+    compile "com.fasterxml.jackson.core:jackson-core:${jacksonDatabindVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
