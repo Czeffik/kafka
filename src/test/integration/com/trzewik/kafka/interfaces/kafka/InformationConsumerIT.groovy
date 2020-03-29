@@ -6,11 +6,13 @@ import com.trzewik.kafka.interfaces.kafka.translation.InformationConsumerConfigu
 import org.awaitility.Awaitility
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 
 @ActiveProfiles(['test', TestInformationConsumerConfig.PROFILE])
+@DirtiesContext
 @ContextConfiguration(classes = [
     InformationConsumerConfiguration,
     TestInformationConsumerConfig

@@ -2,6 +2,7 @@ package com.trzewik.kafka
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles(['test'])
@@ -12,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles
         'topic.information=AppInformation'
     ]
 )
+@DirtiesContext
 class AppFT extends KafkaSpecification {
     @Value('${topic.information}')
     String informationTopic
