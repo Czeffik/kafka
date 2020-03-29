@@ -16,6 +16,7 @@ trait ConsumingFromKafka {
     final static String TEST_GROUP_ID = 'AutomatedTestGroupId'
 
     abstract Duration getDefaultDuration()
+
     abstract String getBrokers()
 
     List<KafkaMessage> consumeAllFrom(String topicName, int expectedNumberOfMessages) {

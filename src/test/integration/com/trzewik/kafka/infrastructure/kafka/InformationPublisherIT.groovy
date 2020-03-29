@@ -6,9 +6,11 @@ import com.trzewik.kafka.domain.translation.InformationPublisher
 import com.trzewik.kafka.infrastructure.kafka.translation.TranslationPublisherConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 
+@DirtiesContext
 @ContextConfiguration(classes = TranslationPublisherConfiguration)
 @TestPropertySource(
     properties = [
