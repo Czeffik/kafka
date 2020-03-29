@@ -3,7 +3,6 @@ package com.trzewik.kafka.infrastructure.kafka.translation
 import com.trzewik.kafka.KafkaSpecification
 import com.trzewik.kafka.domain.translation.Information
 import com.trzewik.kafka.domain.translation.InformationPublisher
-import com.trzewik.kafka.infrastructure.kafka.translation.TranslationPublisherConfiguration
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value

@@ -28,15 +28,15 @@ class AppFT extends KafkaSpecification {
             and publish on translated topic
         '''() {
         given:
-            String key = 'example key'
-            String value = '{"name":"name","description":"description"}'
+            String key = 'new key for this topic'
+            String value = '{"name":"other name than","description":"super description"}'
         when:
             sendMessage(informationTopic, key, value)
         then:
             def messages = consumeAllFrom(translatedTopic, 1)
             with(messages.first()) {
                 assert it.key == key
-                assert it.value == '{"name":"name","description":"Translated description"}'
+                assert it.value == '{"name":"other name than","description":"Translated description"}'
             }
     }
 }
