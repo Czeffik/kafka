@@ -62,9 +62,4 @@ public class InformationConsumerConfiguration {
             new JsonDeserializer<>(Information.class)
         );
     }
-
-    @Bean
-    ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
 }
