@@ -1,8 +1,7 @@
-package com.trzewik.kafka.interfaces.kafka
+package com.trzewik.kafka.interfaces.kafka.translation
 
 import com.trzewik.kafka.KafkaSpecification
 import com.trzewik.kafka.domain.translation.TranslationService
-import com.trzewik.kafka.interfaces.kafka.translation.InformationConsumerConfiguration
 import org.awaitility.Awaitility
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -38,7 +37,7 @@ class InformationConsumerIT extends KafkaSpecification {
         when:
             sendMessage(informationTopic, key, value)
         then:
-            Awaitility.await().atMost(DEFAULT_DURATION).untilAsserted {
+            Awaitility.await().atMost(KafkaSpecification.DEFAULT_DURATION).untilAsserted {
                 1 * translationServiceMock.translate(key, {
                     assert it.getName() == name
                     assert it.getDescription() == description

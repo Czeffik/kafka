@@ -1,4 +1,4 @@
-package com.trzewik.kafka.interfaces.kafka
+package com.trzewik.kafka.interfaces.kafka.translation
 
 import com.trzewik.kafka.domain.translation.TranslationService
 import org.springframework.boot.test.context.TestConfiguration
