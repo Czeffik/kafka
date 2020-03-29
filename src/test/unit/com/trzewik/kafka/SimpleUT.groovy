@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class SimpleUT extends Specification {
     def 'fake test'() {
-        expcet:
-        true
+        expect:
+            true
     }
 }

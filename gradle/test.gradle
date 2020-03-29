@@ -24,6 +24,8 @@ dependencies {
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
 
     testImplementation "org.springframework:spring-test:${springVersion}"
+    testImplementation "org.springframework.kafka:spring-kafka-test:${springKafkaVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 }
 
 idea {

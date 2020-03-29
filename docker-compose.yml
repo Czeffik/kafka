@@ -2,7 +2,8 @@ version: '2'
 
 services:
   zookeeper:
-    image: 'bitnami/zookeeper:3'
+    container_name: zookeeper
+    image: 'bitnami/zookeeper:latest'
     ports:
       - '2181:2181'
     volumes:
@@ -10,14 +11,21 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
   kafka:
-    image: 'bitnami/kafka:2'
+    container_name: kafka
+    image: 'bitnami/kafka:latest'
     ports:
       - '9092:9092'
+      - '29094:29094'
     volumes:
       - 'kafka_data:/bitnami'
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
+      #For more details: https://rmoff.net/2018/08/02/kafka-listeners-explained/
+      - KAFKA_CFG_LISTENERS=LISTENER_BOB://kafka:29092,LISTENER_FRED://kafka:9092,LISTENER_ALICE://kafka:29094
+      - KAFKA_CFG_ADVERTISED_LISTENERS=LISTENER_BOB://kafka:29092,LISTENER_FRED://localhost:9092,LISTENER_ALICE://never-gonna-give-you-up:29094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_BOB:PLAINTEXT,LISTENER_FRED:PLAINTEXT,LISTENER_ALICE:PLAINTEXT
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=LISTENER_BOB
     depends_on:
       - zookeeper
 
