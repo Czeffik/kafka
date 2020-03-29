@@ -19,6 +19,7 @@ plugins {
     id 'groovy'
     id 'java'
     id 'idea'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'info.solidsoft.pitest' version '1.4.6'
 //    id 'checkstyle'
 }
@@ -45,4 +46,16 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+bootJar {
+    mainClassName = 'com.trzewik.kafka.App'
+    manifest {
+        attributes 'Start-Class': 'com.trzewik.kafka.App'
+    }
+    launchScript()
+}
+
+bootRun {
+    main = 'com.trzewik.kafka.App'
 }
