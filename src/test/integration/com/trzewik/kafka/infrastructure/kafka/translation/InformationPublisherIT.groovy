@@ -4,6 +4,7 @@ import com.trzewik.kafka.KafkaSpecification
 import com.trzewik.kafka.domain.translation.Information
 import com.trzewik.kafka.domain.translation.InformationPublisher
 import com.trzewik.kafka.infrastructure.kafka.translation.TranslationPublisherConfiguration
+import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.test.annotation.DirtiesContext
@@ -17,6 +18,7 @@ import org.springframework.test.context.TestPropertySource
         'topic.translated=InformationPublisherIT'
     ]
 )
+@Slf4j
 class InformationPublisherIT extends KafkaSpecification {
     @Autowired
     InformationPublisher publisher
@@ -36,6 +38,5 @@ class InformationPublisherIT extends KafkaSpecification {
                 assert it.key == key
                 assert it.value == '{"name":"name","description":"description"}'
             }
-
     }
 }
