@@ -1,4 +1,4 @@
-package com.trzewik.kafka.infrastructure.kafka
+package com.trzewik.kafka.infrastructure.kafka.translation
 
 import com.trzewik.kafka.KafkaSpecification
 import com.trzewik.kafka.domain.translation.Information
