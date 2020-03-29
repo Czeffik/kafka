@@ -2,7 +2,7 @@ package com.trzewik.kafka.interfaces.kafka.translation
 
 import com.trzewik.kafka.KafkaSpecification
 import com.trzewik.kafka.domain.translation.TranslationService
-import org.awaitility.Awaitility
+import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.test.annotation.DirtiesContext
@@ -21,6 +21,7 @@ import org.springframework.test.context.TestPropertySource
         'topic.information=InformationConsumerIT'
     ]
 )
+@Slf4j
 class InformationConsumerIT extends KafkaSpecification {
     @Value('${topic.information}')
     String informationTopic
@@ -37,11 +38,12 @@ class InformationConsumerIT extends KafkaSpecification {
         when:
             sendMessage(informationTopic, key, value)
         then:
-            Awaitility.await().atMost(KafkaSpecification.DEFAULT_DURATION).untilAsserted {
-                1 * translationServiceMock.translate(key, {
-                    assert it.getName() == name
-                    assert it.getDescription() == description
-                })
-            }
+            consumeAllFrom(informationTopic, 1)
+        and:
+            1 * translationServiceMock.translate(key, {
+                assert it.getName() == name
+                assert it.getDescription() == description
+            })
+
     }
 }

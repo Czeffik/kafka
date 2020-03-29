@@ -1,5 +1,6 @@
 package com.trzewik.kafka
 
+import groovy.util.logging.Slf4j
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -12,6 +13,7 @@ import java.time.Duration
 
 import static org.awaitility.Awaitility.await
 
+@Slf4j
 trait ConsumingFromKafka {
     final static String TEST_GROUP_ID = 'AutomatedTestGroupId'
 
@@ -46,7 +48,7 @@ trait ConsumingFromKafka {
             }
         }
         consumer.close()    //todo should be in finally block
-
+        log.info('Consumed [{}] messages!', messages.size())
         return messages
     }
 

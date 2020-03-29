@@ -1,5 +1,6 @@
 package com.trzewik.kafka
 
+import groovy.util.logging.Slf4j
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -8,6 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer
 
 import java.util.concurrent.Future
 
+@Slf4j
 trait ProducingToKafka {
     abstract String getBrokers()
 
@@ -15,7 +17,8 @@ trait ProducingToKafka {
         def producer = createProducer()
 
         Future<RecordMetadata> future = producer.send(createRecord(topicName, key, value))
-        future.get()
+        RecordMetadata recordMetadata = future.get()
+        log.info('Send message with key: [{}], value: [{}] to topic: [{}]!', key, value, recordMetadata.topic())
 
         producer.close()
     }

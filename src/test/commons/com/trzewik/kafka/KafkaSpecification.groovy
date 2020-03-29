@@ -17,7 +17,7 @@ import java.time.Duration
     properties = ['bootstrap.address=${spring.embedded.kafka.brokers}']
 )
 class KafkaSpecification extends Specification implements ConsumingFromKafka, ProducingToKafka {
-    final static Duration DEFAULT_DURATION = Duration.ofSeconds(2)
+    final static Duration DEFAULT_DURATION = Duration.ofSeconds(4)
 
     @Value('${spring.embedded.kafka.brokers}')
     String brokers

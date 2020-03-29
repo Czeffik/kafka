@@ -1,5 +1,6 @@
 package com.trzewik.kafka
 
+import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.DirtiesContext
@@ -14,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles
     ]
 )
 @DirtiesContext
+@Slf4j
 class AppFT extends KafkaSpecification {
     @Value('${topic.information}')
     String informationTopic
