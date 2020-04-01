@@ -10,8 +10,9 @@ import org.springframework.test.context.ActiveProfiles
 @SpringBootTest(
     classes = [App],
     properties = [
-        'topic.translated=AppTranslated',
-        'topic.information=AppInformation'
+        'topic.translated=TopicAppTranslated',
+        'topic.information=TopicAppInformation',
+        'group.id=GroupIdAppFT'
     ]
 )
 @DirtiesContext

@@ -26,4 +26,9 @@ class KafkaSpecification extends Specification implements ConsumingFromKafka, Pr
     Duration getDefaultDuration() {
         return DEFAULT_DURATION
     }
+
+    void sendMessageAndWaitForMessageAppear(String topic, String key, String value, int expectedNumberOfMessages) {
+        sendMessage(topic, key, value)
+        consumeAllFrom(topic, expectedNumberOfMessages)
+    }
 }

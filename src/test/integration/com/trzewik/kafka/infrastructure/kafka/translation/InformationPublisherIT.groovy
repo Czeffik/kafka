@@ -14,7 +14,7 @@ import org.springframework.test.context.TestPropertySource
 @ContextConfiguration(classes = TranslationPublisherConfiguration)
 @TestPropertySource(
     properties = [
-        'topic.translated=InformationPublisherIT'
+        'topic.translated=TopicInformationPublisherIT'
     ]
 )
 @Slf4j

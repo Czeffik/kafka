@@ -18,7 +18,8 @@ import org.springframework.test.context.TestPropertySource
 ])
 @TestPropertySource(
     properties = [
-        'topic.information=InformationConsumerIT'
+        'topic.information=TopicInformationConsumerIT',
+        'group.id=GroupIdInformationConsumerIT'
     ]
 )
 @Slf4j
@@ -36,10 +37,8 @@ class InformationConsumerIT extends KafkaSpecification {
             String description = 'example description'
             String value = "{\"name\":\"${name}\",\"description\":\"${description}\"}"
         when:
-            sendMessage(informationTopic, key, value)
+            sendMessageAndWaitForMessageAppear(informationTopic, key, value, 1)
         then:
-            consumeAllFrom(informationTopic, 1)
-        and:
             1 * translationServiceMock.translate(key, {
                 assert it.getName() == name
                 assert it.getDescription() == description

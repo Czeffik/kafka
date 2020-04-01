@@ -10,6 +10,7 @@ buildscript {
         springKafkaVersion = '2.4.4.RELEASE'
         springBootVersion = '2.2.6.RELEASE'
         jacksonDatabindVersion = '2.10.3'
+        pitestVersion = '1.4.6'
         repositories(repos)
     }
 }
@@ -19,8 +20,8 @@ plugins {
     id 'groovy'
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
-    id 'info.solidsoft.pitest' version '1.4.6'
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'info.solidsoft.pitest' version "$pitestVersion"
 //    id 'checkstyle'
 }
 
@@ -31,9 +32,7 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
+repositories(repos)
 
 dependencies {
     compile "org.springframework:spring-context:${springVersion}"

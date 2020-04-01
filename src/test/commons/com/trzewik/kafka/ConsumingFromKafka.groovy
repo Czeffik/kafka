@@ -21,10 +21,11 @@ trait ConsumingFromKafka {
 
     abstract String getBrokers()
 
+    //todo this method should have better name
     List<KafkaMessage> consumeAllFrom(String topicName, int expectedNumberOfMessages) {
         def messages = []
         await().atMost(getDefaultDuration()).untilAsserted {
-            messages = consumeAllFrom(topicName)
+            messages.addAll(consumeAllFrom(topicName))
 
             assert messages.size() == expectedNumberOfMessages
         }
