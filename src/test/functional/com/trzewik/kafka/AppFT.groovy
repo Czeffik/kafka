@@ -1,6 +1,8 @@
 package com.trzewik.kafka
 
 import groovy.util.logging.Slf4j
+import org.apache.kafka.common.serialization.StringDeserializer
+import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.DirtiesContext
@@ -24,6 +26,30 @@ class AppFT extends KafkaSpecification {
     @Value('${topic.translated}')
     String translatedTopic
 
+    KafkaTestHelper<String> informationTopicHelper
+    KafkaTestHelper<String> translatedTopicHelper
+
+    def setup() {
+        informationTopicHelper = KafkaTestHelperFactory.create(new KafkaTestHelperFactory.Builder(
+            topic: informationTopic,
+            brokers: brokers,
+            serializer: new StringSerializer(),
+            deserializer: new StringDeserializer()
+        ))
+
+        translatedTopicHelper = KafkaTestHelperFactory.create(new KafkaTestHelperFactory.Builder(
+            topic: translatedTopic,
+            brokers: brokers,
+            serializer: new StringSerializer(),
+            deserializer: new StringDeserializer()
+        ))
+    }
+
+    def cleanup() {
+        informationTopicHelper.close()
+        translatedTopicHelper.close()
+    }
+
     def '''should consume message from information topic
             and translate consumed information
             and publish on translated topic
@@ -32,12 +58,8 @@ class AppFT extends KafkaSpecification {
             String key = 'new key for this topic'
             String value = '{"name":"other name than","description":"super description"}'
         when:
-            sendMessage(informationTopic, key, value)
+            informationTopicHelper.sendMessageAndWaitForAppear(key, value)
         then:
-            def messages = consumeAllFrom(translatedTopic, 1)
-            with(messages.first()) {
-                assert it.key == key
-                assert it.value == '{"name":"other name than","description":"Translated description"}'
-            }
+            translatedTopicHelper.waitForMessage(key, '{"name":"other name than","description":"Translated description"}')
     }
 }

@@ -5,8 +5,6 @@ import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.TestPropertySource
 import spock.lang.Specification
 
-import java.time.Duration
-
 @EmbeddedKafka(
     topics = [
         '${topic.translated:translated}', '${topic.information:information}'
@@ -16,19 +14,7 @@ import java.time.Duration
 @TestPropertySource(
     properties = ['bootstrap.address=${spring.embedded.kafka.brokers}']
 )
-class KafkaSpecification extends Specification implements ConsumingFromKafka, ProducingToKafka {
-    final static Duration DEFAULT_DURATION = Duration.ofSeconds(4)
-
+class KafkaSpecification extends Specification {
     @Value('${spring.embedded.kafka.brokers}')
     String brokers
-
-    @Override
-    Duration getDefaultDuration() {
-        return DEFAULT_DURATION
-    }
-
-    void sendMessageAndWaitForMessageAppear(String topic, String key, String value, int expectedNumberOfMessages) {
-        sendMessage(topic, key, value)
-        consumeAllFrom(topic, expectedNumberOfMessages)
-    }
 }
