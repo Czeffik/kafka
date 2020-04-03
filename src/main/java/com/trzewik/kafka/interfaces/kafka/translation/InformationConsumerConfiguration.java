@@ -25,8 +25,11 @@ import static org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZE
 @Configuration
 public class InformationConsumerConfiguration {
     @Bean
-    InformationConsumer informationConsumer(TranslationService translationService) {
-        return new InformationConsumerImpl(translationService);
+    InformationConsumer informationConsumer(
+        TranslationService translationService,
+        @Value("${topic.information}") String topicName
+    ) {
+        return new InformationConsumer(translationService, topicName);
     }
 
     @Bean
