@@ -1,3 +1,6 @@
+spring:
+  main:
+    web-application-type: none
 topic:
   information: information
   translated: information-translated

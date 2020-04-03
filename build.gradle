@@ -6,8 +6,7 @@ buildscript {
             mavenCentral()
         }
         lombokVersion = '1.18.12'
-        springVersion = '5.2.5.RELEASE'
-        springKafkaVersion = '2.4.4.RELEASE'
+        springKafkaVersion = '2.4.5.RELEASE'
         springBootVersion = '2.2.6.RELEASE'
         jacksonDatabindVersion = '2.10.3'
         pitestVersion = '1.4.6'
@@ -35,9 +34,8 @@ sourceCompatibility = 1.8
 repositories(repos)
 
 dependencies {
-    compile "org.springframework:spring-context:${springVersion}"
     compile "org.springframework.kafka:spring-kafka:${springKafkaVersion}"
-    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
 
     compile "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
     compile "com.fasterxml.jackson.core:jackson-annotations:${jacksonDatabindVersion}"
