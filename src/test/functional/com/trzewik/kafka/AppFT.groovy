@@ -1,54 +1,26 @@
 package com.trzewik.kafka
 
-import groovy.util.logging.Slf4j
-import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.kafka.common.serialization.StringSerializer
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
+import spock.lang.Specification
 
 @ActiveProfiles(['test'])
 @SpringBootTest(
-    classes = [App],
+    classes = [App, TestKafkaConfig],
     properties = [
-        'topic.translated=TopicAppTranslated',
-        'topic.information=TopicAppInformation',
-        'group.id=GroupIdAppFT'
-    ]
+        'kafka.topic.translated=TopicAppTranslated',
+        'kafka.topic.information=TopicAppInformation',
+        'kafka.group.id=GroupIdAppFT'
+    ],
+    webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
-@DirtiesContext
-@Slf4j
-class AppFT extends KafkaSpecification {
-    @Value('${topic.information}')
-    String informationTopic
-
-    @Value('${topic.translated}')
-    String translatedTopic
-
+@EmbeddedKafkaTest
+class AppFT extends Specification {
+    @Autowired
     KafkaTestHelper<String> informationTopicHelper
+    @Autowired
     KafkaTestHelper<String> translatedTopicHelper
-
-    def setup() {
-        informationTopicHelper = KafkaTestHelperFactory.create(new KafkaTestHelperFactory.Builder(
-            topic: informationTopic,
-            brokers: brokers,
-            serializer: new StringSerializer(),
-            deserializer: new StringDeserializer()
-        ))
-
-        translatedTopicHelper = KafkaTestHelperFactory.create(new KafkaTestHelperFactory.Builder(
-            topic: translatedTopic,
-            brokers: brokers,
-            serializer: new StringSerializer(),
-            deserializer: new StringDeserializer()
-        ))
-    }
-
-    def cleanup() {
-        informationTopicHelper.close()
-        translatedTopicHelper.close()
-    }
 
     def '''should consume message from information topic
             and translate consumed information

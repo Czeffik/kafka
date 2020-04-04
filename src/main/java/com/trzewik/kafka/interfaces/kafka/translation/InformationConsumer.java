@@ -18,7 +18,7 @@ class InformationConsumer implements ConsumerSeekAware {
     private final TranslationService translationService;
     private final String topicName;
 
-    @KafkaListener(topics = "${topic.information}", containerFactory = "informationKafkaListenerFactory")
+    @KafkaListener(topics = "${kafka.topic.information}", containerFactory = "informationKafkaListenerFactory")
     public void read(ConsumerRecord<String, Information> record) {
         log.info("Consumed information! Key: [{}], information: [{}]!", record.key(), record.value());
         translationService.translate(record.key(), record.value());

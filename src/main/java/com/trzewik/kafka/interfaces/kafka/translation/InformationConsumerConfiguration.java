@@ -27,7 +27,7 @@ public class InformationConsumerConfiguration {
     @Bean
     InformationConsumer informationConsumer(
         TranslationService translationService,
-        @Value("${topic.information}") String topicName
+        @Value("${kafka.topic.information}") String topicName
     ) {
         return new InformationConsumer(translationService, topicName);
     }
@@ -46,8 +46,8 @@ public class InformationConsumerConfiguration {
 
     @Bean
     ConsumerFactory<String, Information> consumerFactory(
-        @Value("${bootstrap.address}") String bootstrapAddress,
-        @Value("${group.id}") String groupId
+        @Value("${kafka.bootstrap.address}") String bootstrapAddress,
+        @Value("${kafka.group.id}") String groupId
     ) {
         Map<String, Object> config = new HashMap<>();
         config.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);

@@ -1,11 +1,11 @@
 spring:
   main:
     web-application-type: none
-topic:
-  information: information
-  translated: information-translated
-bootstrap:
-  address: localhost:9092
-group:
-  id: app
-
+kafka:
+  bootstrap:
+    address: localhost:9092
+  topic:
+    information: information
+    translated: information-translated
+  group:
+    id: app

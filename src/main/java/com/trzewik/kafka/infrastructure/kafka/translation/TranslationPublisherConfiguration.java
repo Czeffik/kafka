@@ -24,7 +24,7 @@ public class TranslationPublisherConfiguration {
     @Bean
     InformationPublisher informationPublisher(
         KafkaOperations<String, Information> producerOperations,
-        @Value("${topic.translated}") String topicName
+        @Value("${kafka.topic.translated}") String topicName
     ) {
         return new InformationPublisherImpl(producerOperations, topicName);
     }
@@ -35,7 +35,7 @@ public class TranslationPublisherConfiguration {
     }
 
     @Bean
-    ProducerFactory<String, Information> producerFactory(@Value("${bootstrap.address}") String bootstrapAddress) {
+    ProducerFactory<String, Information> producerFactory(@Value("${kafka.bootstrap.address}") String bootstrapAddress) {
         Map<String, Object> config = new HashMap<>();
         config.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         config.put(KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

@@ -1,22 +1,16 @@
 package com.trzewik.kafka.interfaces.kafka.translation
 
-import com.trzewik.kafka.KafkaSpecification
+import com.trzewik.kafka.EmbeddedKafkaTest
 import com.trzewik.kafka.KafkaTestHelper
-import com.trzewik.kafka.KafkaTestHelperFactory
 import com.trzewik.kafka.domain.translation.Information
 import com.trzewik.kafka.domain.translation.TranslationService
-import groovy.util.logging.Slf4j
-import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
+import spock.lang.Specification
 
 @ActiveProfiles(['test', TestInformationConsumerConfig.PROFILE])
-@DirtiesContext
 @ContextConfiguration(classes = [
     InformationConsumerConfiguration,
     TestInformationConsumerConfig
@@ -24,32 +18,17 @@ import org.springframework.test.context.TestPropertySource
 )
 @TestPropertySource(
     properties = [
-        'topic.information=TopicInformationConsumerIT',
-        'group.id=GroupIdInformationConsumerIT'
+        'kafka.topic.information=TopicInformationConsumerIT',
+        'kafka.group.id=GroupIdInformationConsumerIT'
     ]
 )
-@Slf4j
-class InformationConsumerIT extends KafkaSpecification {
-    @Value('${topic.information}')
-    String informationTopic
-
+@EmbeddedKafkaTest
+class InformationConsumerIT extends Specification {
     @Autowired
     TranslationService translationServiceMock
 
-    KafkaTestHelper<String> helper
-
-    def setup() {
-        helper = KafkaTestHelperFactory.create(new KafkaTestHelperFactory.Builder(
-            topic: informationTopic,
-            brokers: brokers,
-            serializer: new StringSerializer(),
-            deserializer: new StringDeserializer()
-        ))
-    }
-
-    def cleanup() {
-        helper.close()
-    }
+    @Autowired
+    KafkaTestHelper<String> informationTopicHelper
 
     def 'should consume 215 messages from information topic and trigger translation service'() {
         given:
@@ -60,7 +39,7 @@ class InformationConsumerIT extends KafkaSpecification {
                 messages.put('example key' + it, value)
             }
         when:
-            helper.sendMessagesAndWaitForAppear(messages)
+            informationTopicHelper.sendMessagesAndWaitForAppear(messages)
         then:
             messages.each { k, v ->
                 1 * translationServiceMock.translate(k, {
