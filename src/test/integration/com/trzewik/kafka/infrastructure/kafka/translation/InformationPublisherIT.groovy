@@ -1,11 +1,13 @@
 package com.trzewik.kafka.infrastructure.kafka.translation
 
 import com.trzewik.kafka.EmbeddedKafkaTest
-import com.trzewik.kafka.KafkaTestHelper
+
 import com.trzewik.kafka.TestKafkaConfig
-import com.trzewik.kafka.consumer.KafkaMessage
+
 import com.trzewik.kafka.domain.translation.Information
 import com.trzewik.kafka.domain.translation.InformationPublisher
+import io.github.czeffik.kafka.test.clients.helper.KafkaTestHelper
+import io.github.czeffik.kafka.test.clients.message.KafkaMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration

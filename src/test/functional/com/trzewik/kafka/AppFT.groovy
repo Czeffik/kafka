@@ -1,5 +1,6 @@
 package com.trzewik.kafka
 
+import io.github.czeffik.kafka.test.clients.helper.KafkaTestHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -30,7 +31,7 @@ class AppFT extends Specification {
             String key = 'new key for this topic'
             String value = '{"name":"other name than","description":"super description"}'
         when:
-            informationTopicHelper.sendMessageAndWaitForAppear(key, value)
+            informationTopicHelper.sendMessageAndWaitToAppear(key, value)
         then:
             translatedTopicHelper.waitForMessage(key, '{"name":"other name than","description":"Translated description"}')
     }
