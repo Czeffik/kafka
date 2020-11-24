@@ -1,11 +1,17 @@
 package com.trzewik.kafka.interfaces.kafka.translation
 
 import com.trzewik.kafka.EmbeddedKafkaTest
-import com.trzewik.kafka.KafkaTestHelper
-import com.trzewik.kafka.KafkaTestHelperFactory
+import com.trzewik.kafka.consumer.KafkaConsumerFactory
 import com.trzewik.kafka.domain.translation.Information
 import com.trzewik.kafka.domain.translation.TranslationService
+import com.trzewik.kafka.producer.KafkaProducerFactory
 import groovy.util.logging.Slf4j
+import io.github.czeffik.kafka.test.clients.consumer.KafkaTestConsumer
+import io.github.czeffik.kafka.test.clients.consumer.KafkaTestConsumerFactory
+import io.github.czeffik.kafka.test.clients.helper.KafkaTestHelper
+import io.github.czeffik.kafka.test.clients.helper.KafkaTestHelperFactory
+import io.github.czeffik.kafka.test.clients.producer.KafkaTestProducer
+import io.github.czeffik.kafka.test.clients.producer.KafkaTestProducerFactory
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.awaitility.Awaitility
@@ -57,7 +63,7 @@ class InformationSnapshotConsumerIT extends Specification {
         when:
             def key = 'next key'
             def value = '{"name": "next message name", "description": "next message description"}'
-            informationTopicHelper.sendMessageAndWaitForAppear(key, value)
+            informationTopicHelper.sendMessageAndWaitToAppear(key, value)
         then:
             Awaitility.await().atMost(Duration.ofSeconds(4)).untilAsserted {
                 with((translationServiceMock as TranslationServiceMock).getMessages()) {
@@ -94,19 +100,21 @@ class InformationSnapshotConsumerIT extends Specification {
 
         static void sendMessages(ConfigurableApplicationContext context) {
             KafkaTestHelper<String> informationTopicHelper = createHelper(context.getEnvironment())
-            informationTopicHelper.sendMessagesAndWaitForAppear(startingMessages())
+            informationTopicHelper.sendMessagesAndWaitToAppear(startingMessages())
             informationTopicHelper.close()
         }
 
         static KafkaTestHelper<String> createHelper(Environment environment) {
-            return KafkaTestHelperFactory.create(
-                new KafkaTestHelperFactory.Builder(
-                    topic: environment.getProperty('kafka.topic.information'),
-                    brokers: environment.getProperty('kafka.bootstrap.address'),
-                    serializer: new StringSerializer(),
-                    deserializer: new StringDeserializer()
-                )
+            KafkaTestConsumer<String> consumer = KafkaTestConsumerFactory.createConsumer(
+                KafkaConsumerFactory.createConsumer(environment.getProperty('kafka.bootstrap.address'), new StringDeserializer()),
+                environment.getProperty('kafka.topic.information'),
+                Duration.ofSeconds(2)
             )
+            KafkaTestProducer<String> producer = KafkaTestProducerFactory.createProducer(
+                KafkaProducerFactory.createProducer(environment.getProperty('kafka.bootstrap.address'), new StringSerializer()),
+                environment.getProperty('kafka.topic.information')
+            )
+            return KafkaTestHelperFactory.createHelper(producer, consumer, Duration.ofSeconds(2))
         }
 
         static Map<String, String> startingMessages() {

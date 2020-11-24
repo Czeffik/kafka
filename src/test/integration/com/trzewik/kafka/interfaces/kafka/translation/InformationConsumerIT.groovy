@@ -1,9 +1,10 @@
 package com.trzewik.kafka.interfaces.kafka.translation
 
 import com.trzewik.kafka.EmbeddedKafkaTest
-import com.trzewik.kafka.KafkaTestHelper
+
 import com.trzewik.kafka.domain.translation.Information
 import com.trzewik.kafka.domain.translation.TranslationService
+import io.github.czeffik.kafka.test.clients.helper.KafkaTestHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
@@ -39,7 +40,7 @@ class InformationConsumerIT extends Specification {
                 messages.put('example key' + it, value)
             }
         when:
-            informationTopicHelper.sendMessagesAndWaitForAppear(messages)
+            informationTopicHelper.sendMessagesAndWaitToAppear(messages)
         then:
             messages.each { k, v ->
                 1 * translationServiceMock.translate(k, {
